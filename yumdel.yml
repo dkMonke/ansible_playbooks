@@ -1,0 +1,19 @@
+---
+- name : add packages
+  hosts : server1,server2
+  become : true
+  vars:
+   package_list:
+     - htop
+     - mt-st
+  tasks:
+  - name : install packages
+    yum : 
+     name : "{{ item }}"
+     state : absent
+    register : out_result_user
+    loop :
+     "{{ package_list }}"
+  - name : print output
+    debug:
+     msg : "returned output :  {{ out_result_user}}"

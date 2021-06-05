@@ -1,0 +1,22 @@
+---
+- name : looping
+  hosts : server1,server2
+  become : true
+  vars:
+   myusers:
+   - firstname : user2
+     uid : 1219
+     password : pass,123
+   - firstname : user299
+     uid : 2299
+     password : pass,123
+   myuserslist :
+    - first
+    - second
+  tasks:
+  
+  - name: print vars
+    debug:
+      msg: " output : {{ item }}"
+    loop :
+     "{{ myuserslist }}"

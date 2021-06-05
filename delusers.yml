@@ -1,0 +1,21 @@
+---
+- name : looping
+  hosts : server1,server2
+  become : true
+  vars:
+   myusers:
+   - firstname : user2
+     uid : 1219
+     password : pass,123
+   - firstname : user299
+     uid : 2299
+     password : pass,123
+  tasks:
+  - name : adding users
+    user:
+     name : "{{ item.firstname }}"
+     uid : "{{ item.uid }}"
+     password : "{{ item.password | password_hash('sha512')}}"
+     state : absent
+    loop :
+     "{{ myusers }}"
